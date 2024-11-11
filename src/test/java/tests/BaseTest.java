@@ -31,8 +31,13 @@ public class BaseTest {
 
         switch (browser.toLowerCase()) {
             case "chrome":
-                driver = new ChromeDriver();
-                break;
+                ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless");  // Run in headless mode
+            chromeOptions.addArguments("--no-sandbox");  // Required for some CI environments
+            chromeOptions.addArguments("--disable-dev-shm-usage");  // Overcomes limited resource problems
+            chromeOptions.addArguments("--remote-allow-origins=*");  // Helps with remote debugging port issues if needed
+            driver = new ChromeDriver(chromeOptions);
+            break;
             case "firefox":
                 driver = new FirefoxDriver();
                 break;
